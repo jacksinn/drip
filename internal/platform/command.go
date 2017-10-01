@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"fmt"
-	filepath "path/filepath"
 )
 
 func ReadSettingsFile() {
