@@ -7,6 +7,12 @@ import (
 	"io/ioutil"
 )
 
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
 func ReadSettingsFile() {
 	// Get Path to Settings
 	// Getting current working directory
@@ -34,9 +40,21 @@ func ReadSettingsFile() {
 	}
 
 	if inDrupalDocroot {
-		fmt.Println(defaultSettingsFilePath)
+		// Build full path
 		settingsPath := dir + "/" + defaultSettingsFilePath
 		fmt.Println(settingsPath)
+
+		// Open file for reading
+		f, err := os.Open(settingsPath)
+		check(err)
+
+		// Arbitrary reading right now for testing
+		b1 := make([]byte, 5)
+		n1, err := f.Read(b1)
+		check(err)
+		fmt.Printf("%d bytes: %s\n", n1, string(b1))
+
+		f.Close()
 	} else {
 		fmt.Println("Not in Drupal docroot. Have to do more.")
 	}
