@@ -5,6 +5,7 @@ import (
 	"os"
 	"fmt"
 	"io/ioutil"
+	"bufio"
 )
 
 func check(e error) {
@@ -47,6 +48,7 @@ func ReadSettingsFile() {
 		// Open file for reading
 		f, err := os.Open(settingsPath)
 		check(err)
+		defer f.Close()
 
 		// Arbitrary reading right now for testing
 		b1 := make([]byte, 5)
@@ -54,7 +56,15 @@ func ReadSettingsFile() {
 		check(err)
 		fmt.Printf("%d bytes: %s\n", n1, string(b1))
 
-		f.Close()
+		scanner := bufio.NewScanner(f)
+		for scanner.Scan() {
+			fmt.Println(scanner.Text())
+		}
+
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
+		}
+
 	} else {
 		fmt.Println("Not in Drupal docroot. Have to do more.")
 	}
