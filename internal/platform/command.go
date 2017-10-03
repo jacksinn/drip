@@ -35,6 +35,8 @@ func ReadSettingsFile() {
 
 	if inDrupalDocroot {
 		fmt.Println(defaultSettingsFilePath)
+		settingsPath := dir + "/" + defaultSettingsFilePath
+		fmt.Println(settingsPath)
 	} else {
 		fmt.Println("Not in Drupal docroot. Have to do more.")
 	}
